@@ -65,28 +65,13 @@ impl <F: FieldExt> FiboChip<F>{
             |mut region|{
                 self.config.selector.enable(&mut region, 0)?;
 
-                let a_cell = region.assign_advice(
-                    || "a",
-                    self.config.advice[0],
-                    0,
-                    || a.ok_or(Error::Synthesis),
-                ).map(ACell)?;
+                let a_cell = region.assign_advice(|| "a",self.config.advice[0],0,|| a.ok_or(Error::Synthesis),).map(ACell)?;
 
-                let b_cell = region.assign_advice(
-                    || "b",
-                    self.config.advice[1],
-                    0,
-                    || b.ok_or(Error::Synthesis),
-                ).map(ACell)?;
+                let b_cell = region.assign_advice(|| "b",self.config.advice[1],0,|| b.ok_or(Error::Synthesis),).map(ACell)?;
 
                 let c_val = a.and_then(|a| b.map(|b| a+b));
 
-                let c_cell = region.assign_advice(
-                    || "c",
-                    self.config.advice[2],
-                    0,
-                    || c_val.ok_or(Error::Synthesis),
-                ).map(ACell)?;
+                let c_cell = region.assign_advice(|| "c",self.config.advice[2],0,|| c_val.ok_or(Error::Synthesis),).map(ACell)?;
 
                 Ok((a_cell,b_cell,c_cell))
 
