@@ -186,3 +186,32 @@ fn main() {
     // let prover = MockProver::run(k,&circuit,vec![public_input.clone()]).unwrap();
     // prover.assert_satisfied();
 }
+#[cfg(test)]
+mod tests {
+    use super::MyCircuit;
+    use std::marker::PhantomData;
+    use halo2_proofs::{dev::MockProver, pasta::Fp};
+
+    #[test]
+    fn fibonacci_example2() {
+        let k = 4;
+
+    let a = Fp::from(1);
+    let b = Fp::from(1);
+
+    let out = Fp::from(55);
+
+    let circuit = MyCircuit{
+        a: Some(a),
+        b: Some(b),
+    };
+
+    let mut public_input = vec![a,b,out];
+
+    let prover = MockProver::run(k,&circuit,vec![public_input.clone()]).unwrap();
+    prover.assert_satisfied();
+
+    public_input[2] += Fp::one();
+    // let prover = MockProver::run(k,&circuit,vec![public_input.clone()]).unwrap();
+    // prover.assert_satisfied();
+    }}
